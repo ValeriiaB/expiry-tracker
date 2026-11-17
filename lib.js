@@ -119,6 +119,27 @@
       .slice(0, 8);
   }
 
+  /** Typed digits -> "dd/mm/yy" (or dd/mm/yyyy). No trailing separator, so backspace works. */
+  function formatDigits(str) {
+    var d = String(str || '').replace(/\D/g, '').slice(0, 8);
+    var out = d.slice(0, 2);
+    if (d.length > 2) out += '/' + d.slice(2, 4);
+    if (d.length > 4) out += '/' + d.slice(4, 8);
+    return out;
+  }
+  /** "120527" or "12/05/27" or "12052027" -> "2027-05-12", or null if not a real date. */
+  function parseTyped(str) {
+    var d = String(str || '').replace(/\D/g, '');
+    if (d.length !== 6 && d.length !== 8) return null;
+    var day = +d.slice(0, 2), mo = +d.slice(2, 4);
+    var y = d.length === 6 ? 2000 + +d.slice(4, 6) : +d.slice(4, 8);
+    return validDate(y, mo, day) ? toISO(y, mo, day) : null;
+  }
+  function isoToTyped(iso) {
+    var p = String(iso || '').split('-');
+    return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0].slice(2) : '';
+  }
+
   function uid() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   }
@@ -168,7 +189,8 @@
   var api = {
     pad: pad, toISO: toISO, parseISO: parseISO, lastDayOfMonth: lastDayOfMonth,
     daysUntil: daysUntil, findDates: findDates, pickBestDate: pickBestDate,
-    nameCandidates: nameCandidates, uid: uid, makeBackup: makeBackup,
+    nameCandidates: nameCandidates, formatDigits: formatDigits,
+    parseTyped: parseTyped, isoToTyped: isoToTyped, uid: uid, makeBackup: makeBackup,
     readBackup: readBackup, buildICS: buildICS
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

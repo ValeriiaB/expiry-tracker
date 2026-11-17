@@ -1,5 +1,5 @@
 /* Offline cache for the app shell. Bump VERSION when files change. */
-var VERSION = 'v1';
+var VERSION = 'v2';
 var CACHE = 'expiry-tracker-' + VERSION;
 var FILES = ['./', 'index.html', 'style.css', 'lib.js', 'app.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];

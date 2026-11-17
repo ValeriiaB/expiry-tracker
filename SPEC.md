@@ -16,7 +16,7 @@ Long-life food (cans, drinks, dry goods) gets forgotten and expires. Need a supe
    - Short "expiring in the next 7 days" strip at the top.
 2. **Add item**
    - Two fields: **Name**, **Date**.
-   - Each field: type manually OR fill from a photo (camera > on-device OCR, result pre-filled and editable).
+   - Each field: type manually OR fill from a photo. Date is typed as 6 digits ddmmyy (no separators; the app adds them), no calendar picker (camera > on-device OCR, result pre-filled and editable).
    - Save.
 
 ## Out of scope (v1)

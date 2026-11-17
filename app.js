@@ -176,7 +176,7 @@
     resetForm();
     editingId = id;
     $('#name').value = it.name;
-    $('#date').value = it.date;
+    $('#date').value = L.isoToTyped(it.date);
     $('#form-title').textContent = 'Edit item';
     $('#delete').hidden = false;
     $('#cancel').hidden = false;
@@ -191,8 +191,13 @@
   $('#form').addEventListener('submit', function (e) {
     e.preventDefault();
     var name = $('#name').value.trim();
-    var date = $('#date').value;
-    if (!name || !date) return;
+    var date = L.parseTyped($('#date').value);
+    if (!name) return;
+    if (!date) {
+      setStatus('Date not valid. Type 6 digits: day, month, year (e.g. 120527).', true);
+      $('#date').focus();
+      return;
+    }
     if (editingId) {
       state.items.forEach(function (it) { if (it.id === editingId) { it.name = name; it.date = date; } });
     } else {
@@ -205,6 +210,10 @@
     resetForm();
     toast('Saved');
     show('cal');
+  });
+  $('#date').addEventListener('input', function () {
+    this.value = L.formatDigits(this.value);
+    if (this.value.replace(/\D/g, '').length >= 6) setStatus('');
   });
   $('#delete').addEventListener('click', function () {
     if (!editingId || !confirm('Delete this item?')) return;
@@ -293,7 +302,7 @@
         if (target === 'date') {
           var best = L.pickBestDate(text);
           if (best) {
-            $('#date').value = best;
+            $('#date').value = L.isoToTyped(best);
             setStatus('Found ' + fmtDate(best) + '. Please check it.');
           } else {
             setStatus('No date found. Try a closer, sharper photo or type it.', true);
