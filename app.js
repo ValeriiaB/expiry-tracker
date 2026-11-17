@@ -23,8 +23,21 @@
     try {
       var raw = JSON.parse(localStorage.getItem(KEY));
       if (raw && Array.isArray(raw.items)) {
-        state.items = raw.items;
         state.lastBackup = raw.lastBackup || null;
+        var bad = 0, fixed = 0;
+        state.items = raw.items.filter(function (it) {
+          if (!it || typeof it.name !== 'string') { bad++; return false; }
+          if (/^\d{4}-\d{2}-\d{2}$/.test(it.date || '') && !isNaN(L.parseISO(it.date))) return true;
+          var iso = L.parseTyped(it.date);        // repair dates saved as typed text, e.g. "050630"
+          if (iso) { it.date = iso; fixed++; return true; }
+          bad++; return false;
+        });
+        if (fixed || bad) {
+          save();
+          setTimeout(function () {
+            toast((fixed ? 'Repaired ' + fixed + ' date(s). ' : '') + (bad ? bad + ' item(s) had no valid date and were removed.' : ''));
+          }, 300);
+        }
       }
     } catch (e) { /* first run */ }
   }

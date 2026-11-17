@@ -1,7 +1,7 @@
 /* Offline cache for the app shell. Bump VERSION when files change. */
-var VERSION = 'v2';
+var VERSION = 'v3';
 var CACHE = 'expiry-tracker-' + VERSION;
-var FILES = ['./', 'index.html', 'style.css', 'lib.js', 'app.js', 'manifest.webmanifest',
+var FILES = ['./', 'index.html', 'style.css?v=3', 'lib.js?v=3', 'app.js?v=3', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {
@@ -16,7 +16,7 @@ self.addEventListener('fetch', function (e) {
   var req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
   // network first (so updates arrive), fall back to cache when offline
-  e.respondWith(fetch(req).then(function (res) {
+  e.respondWith(fetch(req, { cache: 'no-cache' }).then(function (res) {
     var copy = res.clone();
     caches.open(CACHE).then(function (c) { c.put(req, copy); });
     return res;
