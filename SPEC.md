@@ -4,9 +4,9 @@
 Long-life food (cans, drinks, dry goods) gets forgotten and expires. Need a super simple phone app: a calendar of expiry dates.
 
 ## Platform
-- PWA (web app), installed on iPhone via Safari > Share > Add to Home Screen.
+- PWA (web app), installed on iPhone via Share > Add to Home Screen (Chrome or Safari).
 - Free hosting (GitHub Pages). No App Store, no paid accounts, no extra services.
-- Data stored locally on the phone (IndexedDB). No account, no server.
+- Data stored locally on the phone (browser localStorage). No account, no server.
 
 ## Screens
 1. **Calendar**

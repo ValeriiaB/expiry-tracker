@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Expiry Tracker</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#2f7d5b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Expiry">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main>
+  <!-- CALENDAR -->
+  <section id="view-cal" class="view">
+    <div id="backup-banner" class="banner" hidden>
+      <span>Time for your weekly backup.</span>
+      <button id="banner-backup" class="small">Back up now</button>
+    </div>
+
+    <div id="soon" class="soon" hidden>
+      <h2 id="soon-title"></h2>
+      <ul id="soon-list" class="items"></ul>
+    </div>
+
+    <div class="month-bar">
+      <button id="prev" aria-label="Previous month">‹</button>
+      <button id="month-label" aria-label="Go to today"></button>
+      <button id="next" aria-label="Next month">›</button>
+    </div>
+    <div class="grid weekdays" id="weekdays"></div>
+    <div class="grid days" id="days"></div>
+
+    <h2 id="day-title"></h2>
+    <ul id="day-list" class="items"></ul>
+  </section>
+
+  <!-- ADD / EDIT -->
+  <section id="view-add" class="view" hidden>
+    <h1 id="form-title">Add item</h1>
+    <form id="form" autocomplete="off">
+      <label for="name">Name</label>
+      <div class="field">
+        <input id="name" type="text" placeholder="e.g. Chickpeas" required maxlength="200">
+        <button type="button" class="cam" data-target="name" aria-label="Read name from photo">📷</button>
+      </div>
+      <div id="name-chips" class="chips"></div>
+
+      <label for="date">Expiry date</label>
+      <div class="field">
+        <input id="date" type="date" required>
+        <button type="button" class="cam" data-target="date" aria-label="Read date from photo">📷</button>
+      </div>
+
+      <p id="ocr-status" class="status" role="status"></p>
+      <input id="photo" type="file" accept="image/*" capture="environment" hidden>
+
+      <button type="submit" class="primary" id="save">Save</button>
+      <button type="button" id="delete" class="danger" hidden>Delete</button>
+      <button type="button" id="cancel" class="link" hidden>Cancel</button>
+    </form>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="view-settings" class="view" hidden>
+    <h1>Backup</h1>
+    <p id="backup-info" class="muted"></p>
+    <button id="backup-now" class="primary">Back up now</button>
+    <p class="muted">Saves a file to your phone. In the share sheet choose <b>Save to Files</b>.</p>
+
+    <button id="restore" class="secondary">Restore from backup file</button>
+    <input id="restore-file" type="file" accept=".json,application/json" hidden>
+
+    <h1>Calendar alerts</h1>
+    <button id="export-ics" class="secondary">Export to iPhone Calendar (7-day alerts)</button>
+    <p class="muted">Optional. Re-export after adding new items.</p>
+
+    <p class="muted small-print" id="app-info"></p>
+  </section>
+</main>
+
+<nav>
+  <button data-view="cal" class="active"><span>📅</span>Calendar</button>
+  <button data-view="add"><span>➕</span>Add</button>
+  <button data-view="settings"><span>💾</span>Backup</button>
+</nav>
+
+<div id="toast" role="status" hidden></div>
+
+<script src="lib.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
